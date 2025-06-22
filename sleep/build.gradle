@@ -28,6 +28,12 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// Lombok for reducing boilerplate code
+	compileOnly 'org.projectlombok:lombok:1.18.38'
+	annotationProcessor 'org.projectlombok:lombok:1.18.38'
+	testCompileOnly 'org.projectlombok:lombok:1.18.38'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
+
 	// Setup for Groovy and Spock testing
 	testImplementation platform('org.spockframework:spock-bom:2.3-groovy-3.0')
 	testImplementation 'org.codehaus.groovy:groovy-all:3.0.17'
