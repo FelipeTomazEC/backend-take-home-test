@@ -39,6 +39,11 @@ dependencies {
 	testImplementation 'org.codehaus.groovy:groovy-all:3.0.17'
 	testImplementation 'org.spockframework:spock-core'
 	testImplementation 'org.spockframework:spock-spring'
+
+	// Testcontainers for integration testing
+	testImplementation platform('org.testcontainers:testcontainers-bom:1.21.2')
+	testImplementation 'org.testcontainers:testcontainers'
+	testImplementation 'org.testcontainers:postgresql'
 }
 
 tasks.withType(KotlinCompile) {
