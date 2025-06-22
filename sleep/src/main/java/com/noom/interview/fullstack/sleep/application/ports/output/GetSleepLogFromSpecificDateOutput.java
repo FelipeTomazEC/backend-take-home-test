@@ -1,5 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.ports.output;
 
+import com.noom.interview.fullstack.sleep.domain.SleepQuality;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,5 +14,5 @@ public class GetSleepLogFromSpecificDateOutput {
     private LocalTime totalSleepTime;
     private LocalTime bedTime;
     private LocalTime wakeUpTime;
-    private String sleepQuality;
+    private SleepQuality sleepQuality;
 }

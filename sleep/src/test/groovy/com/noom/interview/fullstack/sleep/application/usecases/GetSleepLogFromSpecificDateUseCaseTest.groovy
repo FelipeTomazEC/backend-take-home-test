@@ -58,7 +58,7 @@ class GetSleepLogFromSpecificDateUseCaseTest extends Specification {
         then:
         result.bedTime == sleepLog.bedTime
         result.wakeUpTime == sleepLog.wakeUpTime
-        result.sleepQuality == sleepLog.quality.name()
+        result.sleepQuality == sleepLog.quality
         result.totalSleepTime == sleepLog.totalSleepTimeInBed
         result.date == sleepLog.sleepDate
     }

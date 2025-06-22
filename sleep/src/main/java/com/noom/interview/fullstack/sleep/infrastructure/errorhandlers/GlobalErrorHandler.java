@@ -1,6 +1,7 @@
 package com.noom.interview.fullstack.sleep.infrastructure.errorhandlers;
 
 import com.noom.interview.fullstack.sleep.api.v1.responses.ErrorsHttpResponse;
+import com.noom.interview.fullstack.sleep.domain.errors.NoLogsForThisDateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,5 +34,22 @@ public class GlobalErrorHandler {
         var errorMessage = String.format("%s header is required. It must be a valid UUID.", exception.getHeaderName());
 
         return new ErrorsHttpResponse(Set.of(errorMessage));
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NoLogsForThisDateException.class)
+    public ErrorsHttpResponse handleNoLogsForThisDateException(NoLogsForThisDateException exception) {
+        return new ErrorsHttpResponse(Set.of(exception.getMessage()));
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ErrorsHttpResponse handleConstraintViolationException(ConstraintViolationException exception) {
+        var errors = exception.getConstraintViolations()
+                .stream()
+                .map(ConstraintViolation::getMessage)
+                .collect(Collectors.toSet());
+
+        return new ErrorsHttpResponse(errors);
     }
 }

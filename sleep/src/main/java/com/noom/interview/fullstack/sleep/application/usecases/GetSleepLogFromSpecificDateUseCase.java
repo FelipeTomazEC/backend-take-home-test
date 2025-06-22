@@ -31,7 +31,7 @@ public class GetSleepLogFromSpecificDateUseCase implements
                         .totalSleepTime(sleepLog.getTotalSleepTimeInBed())
                         .bedTime(sleepLog.getBedTime())
                         .wakeUpTime(sleepLog.getWakeUpTime())
-                        .sleepQuality(sleepLog.getQuality().name())
+                        .sleepQuality(sleepLog.getQuality())
                         .build()
                 )
                 .orElseThrow(() -> new NoLogsForThisDateException(command.getDate()));
