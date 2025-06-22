@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sleep_management_db
+    username: sleep_management_database_user
+    password: supersecretpassword
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    baselineOnMigrate: true

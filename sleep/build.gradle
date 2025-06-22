@@ -5,6 +5,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'org.jetbrains.kotlin.jvm' version '1.6.21'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+	id 'groovy'
 }
 
 group = 'com.noom.interview.fullstack'
@@ -22,10 +23,31 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.jetbrains.kotlin:kotlin-reflect'
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Lombok for reducing boilerplate code
+	compileOnly 'org.projectlombok:lombok:1.18.38'
+	annotationProcessor 'org.projectlombok:lombok:1.18.38'
+	testCompileOnly 'org.projectlombok:lombok:1.18.38'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+	// Setup for Groovy and Spock testing
+	testImplementation platform('org.spockframework:spock-bom:2.3-groovy-3.0')
+	testImplementation 'org.codehaus.groovy:groovy-all:3.0.17'
+	testImplementation 'org.spockframework:spock-core'
+	testImplementation 'org.spockframework:spock-spring'
+
+	// Testcontainers for integration testing
+	testImplementation platform('org.testcontainers:testcontainers-bom:1.21.2')
+	testImplementation 'org.testcontainers:testcontainers'
+	testImplementation 'org.testcontainers:postgresql'
+
+	// Rest Assured for API testing
+	testImplementation ('io.rest-assured:rest-assured:4.5.1')
 }
 
 tasks.withType(KotlinCompile) {
