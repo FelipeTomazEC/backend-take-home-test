@@ -45,6 +45,9 @@ dependencies {
 	testImplementation platform('org.testcontainers:testcontainers-bom:1.21.2')
 	testImplementation 'org.testcontainers:testcontainers'
 	testImplementation 'org.testcontainers:postgresql'
+
+	// Rest Assured for API testing
+	testImplementation ('io.rest-assured:rest-assured:4.5.1')
 }
 
 tasks.withType(KotlinCompile) {
