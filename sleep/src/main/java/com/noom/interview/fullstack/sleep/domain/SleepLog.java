@@ -2,6 +2,7 @@ package com.noom.interview.fullstack.sleep.domain;
 
 import com.noom.interview.fullstack.sleep.domain.errors.InvalidBedTimeIntervalException;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,8 @@ import java.time.ZoneOffset;
 public class SleepLog {
     private final LocalDateTime bedTime;
     private final LocalDateTime wakeUpTime;
+
+    @Getter
     private final SleepQuality quality;
 
     public SleepLog(
@@ -39,5 +42,13 @@ public class SleepLog {
 
     public LocalDate getSleepDate() {
         return wakeUpTime.toLocalDate();
+    }
+
+    public LocalTime getBedTime() {
+        return bedTime.toLocalTime();
+    }
+
+    public LocalTime getWakeUpTime() {
+        return wakeUpTime.toLocalTime();
     }
 }
