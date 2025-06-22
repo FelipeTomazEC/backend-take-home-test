@@ -1,6 +1,7 @@
 package com.noom.interview.fullstack.sleep.testutils
 
 import com.noom.interview.fullstack.sleep.api.v1.requests.CreateSleepLogHttpRequest
+import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepLogFromSpecificDateHttpResponse
 import com.noom.interview.fullstack.sleep.domain.SleepQuality
 
 import java.time.LocalDateTime
