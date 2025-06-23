@@ -29,10 +29,6 @@ abstract class AbstractDatabaseTest extends Specification {
         POSTGRES.start()
     }
 
-    def cleanupSpec() {
-        POSTGRES.stop()
-    }
-
     @DynamicPropertySource
     static void registerPgProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl)

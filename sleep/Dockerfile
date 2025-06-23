@@ -1,14 +1,13 @@
-FROM openjdk:11
+FROM gradle:7.6.5-jdk11-alpine AS builder
 
-WORKDIR /app
+WORKDIR /source
+COPY build.gradle settings.gradle ./
+COPY src ./src
+RUN gradle build -x test
 
-COPY build.gradle gradlew settings.gradle ./
-COPY gradle/ gradle/
+FROM amazoncorretto:11-alpine3.21
 
-RUN ./gradlew wrapper
-
-COPY src/ src
-
-RUN ./gradlew build
-
-ENTRYPOINT ["java","-jar","build/libs/sleep-0.0.1-SNAPSHOT.jar"]
+WORKDIR /usr/src/app
+COPY --from=builder /source/build/libs/sleep-0.0.1-SNAPSHOT.jar .
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "sleep-0.0.1-SNAPSHOT.jar"]

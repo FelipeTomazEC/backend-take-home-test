@@ -34,6 +34,9 @@ class CreateSleepLogUseCaseTest extends Specification {
                 .userId(userId)
                 .build()
 
+        and: "The user does not have a log for today"
+        getLogFromSpecificDateRepository.findByDate(command.wakeUpTime.toLocalDate(), userId) >> Optional.empty()
+
         when: "The use case is executed"
         createSleepLogUseCase.execute(command)
 

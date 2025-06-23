@@ -21,7 +21,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/sleep_management_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/sleep_management_db
       - SPRING_DATASOURCE_USER=sleep_management_database_user
       - SPRING_DATASOURCE_PASSWORD=supersecretpassword
     depends_on:
