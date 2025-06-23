@@ -31,6 +31,7 @@ All endpoints require a `x-user-id` header to identify the user. This header sho
 - **Docker & Docker Compose**: Containerization and orchestration for local development.
 - **Flyway**: Database migrations.
 - **Lombok**: Reduces Java boilerplate code.
+- **Swagger / OpenAPI**: Interactive API documentation available at `/swagger-ui.html` when the application is running.
 
 
 
@@ -61,6 +62,9 @@ This project follows a clear layered architecture, with each layer having a dist
    - Build and run the Spring Boot application container.
 
    The API will be available at [http://localhost:8080](http://localhost:8080).
+
+   **Swagger UI** for interactive API documentation will be available at:  
+   [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 3. **Stopping the Application**
 
