@@ -46,4 +46,16 @@ class SleepLogTest extends Specification {
         sleepDate.dayOfMonth == wakeUpTime.dayOfMonth
         sleepDate.month == wakeUpTime.month
     }
+
+    def "A sleep log cannot be created in a future date"() {
+        given: "A sleep log with a bed time in the future"
+        def bedTime = LocalDateTime.now()
+        def wakeUpTime = bedTime.plusHours(1)
+
+        when: "Creating a sleep log"
+        new SleepLog(bedTime, wakeUpTime, SleepQuality.GOOD)
+
+        then: "An exception is thrown"
+        thrown(InvalidBedTimeIntervalException)
+    }
 }
