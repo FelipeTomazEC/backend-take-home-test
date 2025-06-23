@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.usecases
 
-import com.noom.interview.fullstack.sleep.application.ports.commands.CreateSleepLogCommand
+import com.noom.interview.fullstack.sleep.application.ports.operations.CreateSleepLogOperation
 import com.noom.interview.fullstack.sleep.application.ports.repositories.GetSleepLogFromDateRepository
 import com.noom.interview.fullstack.sleep.application.ports.repositories.SaveSleepLogRepository
 import com.noom.interview.fullstack.sleep.domain.SleepLog
@@ -25,9 +25,9 @@ class CreateSleepLogUseCaseTest extends Specification {
     )
 
     def "Create a sleep log and stores it in a repository"() {
-        given: "A create sleep log command with valid parameters"
+        given: "A create sleep log operation with valid parameters"
         def userId = UUID.randomUUID()
-        def command = CreateSleepLogCommand.builder()
+        def operation = CreateSleepLogOperation.builder()
                 .bedTime(LocalDateTime.now().minusHours(5))
                 .wakeUpTime(LocalDateTime.now())
                 .quality(SleepQuality.OK)
@@ -35,16 +35,16 @@ class CreateSleepLogUseCaseTest extends Specification {
                 .build()
 
         and: "The user does not have a log for today"
-        getLogFromSpecificDateRepository.findByDate(command.wakeUpTime.toLocalDate(), userId) >> Optional.empty()
+        getLogFromSpecificDateRepository.findByDate(operation.wakeUpTime.toLocalDate(), userId) >> Optional.empty()
 
         when: "The use case is executed"
-        createSleepLogUseCase.execute(command)
+        createSleepLogUseCase.execute(operation)
 
         then: "The repository is used to store the sleep log"
         1 * sleepLogRepository.save({ SleepLog log ->
-            log.quality == command.quality
-            log.bedTime == command.bedTime.toLocalTime()
-            log.wakeUpTime == command.wakeUpTime.toLocalTime()
+            log.quality == operation.quality
+            log.bedTime == operation.bedTime.toLocalTime()
+            log.wakeUpTime == operation.wakeUpTime.toLocalTime()
         }, userId)
     }
 
@@ -55,7 +55,7 @@ class CreateSleepLogUseCaseTest extends Specification {
                 Optional.of(TestEntitiesBuilder.buildSleepLog().build())
 
         and: "we try to create a new sleep log for today"
-        def command = CreateSleepLogCommand.builder()
+        def operation = CreateSleepLogOperation.builder()
                 .bedTime(LocalDateTime.now().minusHours(5))
                 .wakeUpTime(LocalDateTime.now())
                 .quality(SleepQuality.OK)
@@ -63,7 +63,7 @@ class CreateSleepLogUseCaseTest extends Specification {
                 .build()
 
         when: "The use case is executed"
-        createSleepLogUseCase.execute(command)
+        createSleepLogUseCase.execute(operation)
 
         then: "An exception is thrown indicating the user already has a log for today"
         thrown(SleepLogAlreadyExistsException)

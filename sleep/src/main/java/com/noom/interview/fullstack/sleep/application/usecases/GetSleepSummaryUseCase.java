@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.usecases;
 
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepSummaryCommand;
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepSummaryOperation;
 import com.noom.interview.fullstack.sleep.application.ports.output.GetSleepSummaryOutput;
 import com.noom.interview.fullstack.sleep.application.ports.repositories.GetLogsFromPeriodRepository;
 import com.noom.interview.fullstack.sleep.application.services.AverageTimeCalculator;
@@ -20,21 +20,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GetSleepSummaryUseCase implements
-        UseCase<GetSleepSummaryCommand, GetSleepSummaryOutput>
+        UseCase<GetSleepSummaryOperation, GetSleepSummaryOutput>
 {
 
     private final GetLogsFromPeriodRepository getLogsFromPeriodRepository;
     private final AverageTimeCalculator averageTimeCalculator;
 
     @Override
-    public GetSleepSummaryOutput execute(GetSleepSummaryCommand command) {
+    public GetSleepSummaryOutput execute(GetSleepSummaryOperation operation) {
         log.info("Retrieving sleep summary: userId={}, from={}, to={}",
-                 command.getUserId(), command.getStartDate(), command.getEndDate());
+                 operation.getUserId(), operation.getStartDate(), operation.getEndDate());
 
         var sleepLogs = getLogsFromPeriodRepository.findByPeriod(
-                command.getStartDate(),
-                command.getEndDate(),
-                command.getUserId()
+                operation.getStartDate(),
+                operation.getEndDate(),
+                operation.getUserId()
         );
 
         var allSleepTimes = sleepLogs.stream()
@@ -52,7 +52,6 @@ public class GetSleepSummaryUseCase implements
         var allSleepQualities = sleepLogs.stream()
                 .map(SleepLog::getQuality)
                 .collect(Collectors.toList());
-
 
         return GetSleepSummaryOutput.builder()
                 .averageBedTime(averageTimeCalculator.calculateAvgTime(allBedTimes))

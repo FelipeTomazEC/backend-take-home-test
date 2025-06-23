@@ -1,4 +1,4 @@
-package com.noom.interview.fullstack.sleep.application.ports.commands;
+package com.noom.interview.fullstack.sleep.application.ports.operations;
 
 import com.noom.interview.fullstack.sleep.domain.SleepQuality;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class CreateSleepLogCommand {
+public class CreateSleepLogOperation {
     private LocalDateTime bedTime;
     private LocalDateTime wakeUpTime;
     private SleepQuality quality;

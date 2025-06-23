@@ -1,5 +1,5 @@
 package com.noom.interview.fullstack.sleep.application.usecases;
 
-public interface UseCase<Command, Output> {
-    Output execute(Command command);
+public interface UseCase<Operation, Output> {
+    Output execute(Operation operation);
 }
