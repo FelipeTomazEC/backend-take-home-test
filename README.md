@@ -2,16 +2,6 @@
 
 A backend service for managing and tracking users' sleep logs. The API allows users to record their sleep sessions, retrieve logs for specific dates, and get summaries of their sleep patterns over a date range.
 
-## Technologies Used
-
-- **Spring Boot (Java 11)**: Main application framework.
-- **PostgreSQL**: Relational database for persistent storage.
-- **Spock Framework (Groovy)**: Testing framework for unit and integration tests.
-- **Testcontainers**: For integration testing with real PostgreSQL instances.
-- **Docker & Docker Compose**: Containerization and orchestration for local development.
-- **Flyway**: Database migrations.
-- **Lombok**: Reduces Java boilerplate code.
-
 ## Functionalities
 
 The API exposes the following main functionalities:
@@ -30,11 +20,26 @@ The API exposes the following main functionalities:
 
 All endpoints require a `x-user-id` header to identify the user.
 
+## Technologies Used
+
+- **Spring Boot (Java 11)**: Main application framework.
+- **PostgreSQL**: Relational database for persistent storage.
+- **Spock Framework (Groovy)**: Testing framework for unit and integration tests.
+- **Testcontainers**: For integration testing with real PostgreSQL instances.
+- **Docker & Docker Compose**: Containerization and orchestration for local development.
+- **Flyway**: Database migrations.
+- **Lombok**: Reduces Java boilerplate code.
+
+
+
 ## Project Structure
 
-- `sleep/`: Main application source code.
-- `docker-compose.yml`: Docker Compose configuration for local development.
-- `db/`: Database volume for PostgreSQL persistence.
+This project follows a clear layered architecture, with each layer having a distinct responsibility:
+
+- **domain**: Contains the core business entities and domain models that represent the fundamental concepts of the application.
+- **application**: Implements the business logic and orchestrates use cases, coordinating interactions between domain entities and other layers.
+- **infrastructure**: Handles all technology-specific concerns, such as database access, external integrations, and controller implementations.
+- **api**: Defines the REST API, including API contracts, request/response models, and any API-specific logic.
 
 ## Running the Project Locally
 
@@ -74,9 +79,4 @@ cd sleep
 
 This will execute all unit and integration tests.
 
-## Environment Variables
-
-- Database and application configuration can be found and customized in `docker-compose.yml`.
-
 ---
-
