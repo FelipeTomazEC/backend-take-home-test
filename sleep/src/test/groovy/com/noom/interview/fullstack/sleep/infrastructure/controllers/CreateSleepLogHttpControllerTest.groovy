@@ -172,4 +172,27 @@ class CreateSleepLogHttpControllerTest extends AbstractControllerTest {
         def responseBody = response.body().asString()
         responseBody.contains("already exists")
     }
+
+    def "Sleep log cannot be created for a date in the future"() {
+        given: "a request to create a sleep log with a future date"
+        def userId = UUID.randomUUID()
+        def futureDate = now().plusDays(1)
+        def requestBody = TestRequestsBuilder.buildCreateSleepLogHttpRequest()
+                .bedTimeAndDate(futureDate.toString())
+                .wakeUpTimeAndDate(futureDate.plusHours(8).toString())
+                .build()
+
+        when: "the request is sent"
+        def response = createHttpRequest()
+                .with().header(Constants.USER_ID_HEADER, userId.toString())
+                .body(requestBody)
+                .post(SleepLogsApiV1.CREATE_SLEEP_LOG)
+
+        then: "the response status is 400 Bad Request"
+        response.statusCode() == HttpStatus.BAD_REQUEST.value()
+
+        and: "the response body contains an error message"
+        def responseBody = response.body().asString()
+        responseBody.contains("cannot be in the future")
+    }
 }

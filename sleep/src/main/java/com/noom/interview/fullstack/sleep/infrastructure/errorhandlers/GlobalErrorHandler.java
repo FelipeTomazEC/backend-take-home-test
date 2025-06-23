@@ -1,6 +1,7 @@
 package com.noom.interview.fullstack.sleep.infrastructure.errorhandlers;
 
 import com.noom.interview.fullstack.sleep.api.v1.responses.ErrorsHttpResponse;
+import com.noom.interview.fullstack.sleep.domain.errors.InvalidBedTimeIntervalException;
 import com.noom.interview.fullstack.sleep.domain.errors.NoLogsForThisDateException;
 import com.noom.interview.fullstack.sleep.domain.errors.SleepLogAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -57,6 +58,12 @@ public class GlobalErrorHandler {
     @ResponseStatus(value = HttpStatus.CONFLICT)
     @ExceptionHandler(value = SleepLogAlreadyExistsException.class)
     public ErrorsHttpResponse handleSleepLogAlreadyExistsException(SleepLogAlreadyExistsException exception) {
+        return new ErrorsHttpResponse(Set.of(exception.getMessage()));
+    }
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = InvalidBedTimeIntervalException.class)
+    public ErrorsHttpResponse  handleInvalidBedTimeIntervalException(InvalidBedTimeIntervalException exception) {
         return new ErrorsHttpResponse(Set.of(exception.getMessage()));
     }
 }
