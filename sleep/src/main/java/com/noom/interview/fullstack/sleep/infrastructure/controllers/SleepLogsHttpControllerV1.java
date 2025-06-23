@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.infrastructure.controllers;
 
-import com.noom.interview.fullstack.sleep.api.v1.SleepLogsApiV1;
+import com.noom.interview.fullstack.sleep.api.v1.docs.SleepLogsApiV1Docs;
 import com.noom.interview.fullstack.sleep.api.v1.requests.CreateSleepLogHttpRequest;
 import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepLogFromSpecificDateHttpResponse;
 import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepSummaryHttpResponse;
@@ -25,7 +25,7 @@ import static com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepSummar
 
 @RestController
 @RequiredArgsConstructor
-public class SleepLogsHttpControllerV1 implements SleepLogsApiV1 {
+public class SleepLogsHttpControllerV1 implements SleepLogsApiV1Docs {
 
     private final UseCase<CreateSleepLogCommand, Void> createSleepLogUseCase;
     private final UseCase<GetSleepLogFromSpecificDateCommand, GetSleepLogFromSpecificDateOutput> createSleepLogFromSpecificDateUseCase;
