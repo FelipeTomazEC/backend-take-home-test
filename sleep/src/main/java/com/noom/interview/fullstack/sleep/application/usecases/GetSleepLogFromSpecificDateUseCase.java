@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.usecases;
 
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepLogFromSpecificDateCommand;
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepLogFromSpecificDateOperation;
 import com.noom.interview.fullstack.sleep.application.ports.output.GetSleepLogFromSpecificDateOutput;
 import com.noom.interview.fullstack.sleep.application.ports.repositories.GetSleepLogFromDateRepository;
 import com.noom.interview.fullstack.sleep.domain.errors.NoLogsForThisDateException;
@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GetSleepLogFromSpecificDateUseCase implements
-        UseCase<GetSleepLogFromSpecificDateCommand, GetSleepLogFromSpecificDateOutput> {
+        UseCase<GetSleepLogFromSpecificDateOperation, GetSleepLogFromSpecificDateOutput> {
 
     private final GetSleepLogFromDateRepository getSleepLogFromDateRepository;
 
     @Override
-    public GetSleepLogFromSpecificDateOutput execute(GetSleepLogFromSpecificDateCommand command) {
-        log.info("Retrieving sleep log for a specific date: userId={}, date={}", command.getUserId(), command.getDate());
+    public GetSleepLogFromSpecificDateOutput execute(GetSleepLogFromSpecificDateOperation operation) {
+        log.info("Retrieving sleep log for a specific date: userId={}, date={}", operation.getUserId(), operation.getDate());
 
         var possibleSleepLog = getSleepLogFromDateRepository.findByDate(
-                command.getDate(),
-                command.getUserId()
+                operation.getDate(),
+                operation.getUserId()
         );
 
         return possibleSleepLog.map(sleepLog -> GetSleepLogFromSpecificDateOutput.builder()
@@ -34,6 +34,6 @@ public class GetSleepLogFromSpecificDateUseCase implements
                         .sleepQuality(sleepLog.getQuality())
                         .build()
                 )
-                .orElseThrow(() -> new NoLogsForThisDateException(command.getDate()));
+                .orElseThrow(() -> new NoLogsForThisDateException(operation.getDate()));
     }
 }

@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.usecases
 
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepSummaryCommand
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepSummaryOperation
 import com.noom.interview.fullstack.sleep.application.ports.repositories.GetLogsFromPeriodRepository
 import com.noom.interview.fullstack.sleep.application.services.AverageTimeCalculator
 import com.noom.interview.fullstack.sleep.domain.SleepQuality
@@ -20,11 +20,11 @@ class GetSleepSummaryUseCaseTest extends Specification {
     def useCase = new GetSleepSummaryUseCase(repository, averageTimeCalculator)
 
     def "Retrieves sleep summary for a given period"() {
-        given: "a command to get sleep summary for a specific period"
+        given: "a operation to get sleep summary for a specific period"
         def startDate = LocalDate.now().minusDays(7)
         def endDate = LocalDate.now()
         def userId = UUID.randomUUID()
-        def command = GetSleepSummaryCommand.builder()
+        def operation = GetSleepSummaryOperation.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .userId(userId)
@@ -55,7 +55,7 @@ class GetSleepSummaryUseCaseTest extends Specification {
         1 * averageTimeCalculator.calculateAvgTime(bedTimes) >> averageBedTime
 
         when:
-        def result = useCase.execute(command)
+        def result = useCase.execute(operation)
 
         then: "the frequency of each sleep quality is calculated correctly"
         result.sleepQualityFrequency.get(SleepQuality.GOOD) == 1
@@ -69,11 +69,11 @@ class GetSleepSummaryUseCaseTest extends Specification {
     }
 
     def "Quality frequency shows zero for quality not present in logs"() {
-        given: "a command to get sleep summary for a specific period"
+        given: "a operation to get sleep summary for a specific period"
         def startDate = LocalDate.now().minusDays(7)
         def endDate = LocalDate.now()
         def userId = UUID.randomUUID()
-        def command = GetSleepSummaryCommand.builder()
+        def operation = GetSleepSummaryOperation.builder()
                 .startDate(startDate)
                 .endDate(endDate)
                 .userId(userId)
@@ -87,7 +87,7 @@ class GetSleepSummaryUseCaseTest extends Specification {
         repository.findByPeriod(startDate, endDate, userId) >> sleepLogs
 
         when:
-        def result = useCase.execute(command)
+        def result = useCase.execute(operation)
 
         then: "the frequency of BAD quality is zero"
         result.sleepQualityFrequency.get(SleepQuality.BAD) == 0

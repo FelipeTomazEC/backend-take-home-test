@@ -1,6 +1,6 @@
 package com.noom.interview.fullstack.sleep.application.usecases
 
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepLogFromSpecificDateCommand
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepLogFromSpecificDateOperation
 import com.noom.interview.fullstack.sleep.application.ports.repositories.GetSleepLogFromDateRepository
 import com.noom.interview.fullstack.sleep.domain.SleepLog
 import com.noom.interview.fullstack.sleep.domain.SleepQuality
@@ -19,25 +19,25 @@ class GetSleepLogFromSpecificDateUseCaseTest extends Specification {
     def useCase = new GetSleepLogFromSpecificDateUseCase(repository)
 
     def "No logs found for specific date"() {
-        given: "command to get sleep log for a specific date"
-        def command = GetSleepLogFromSpecificDateCommand.builder()
+        given: "operation to get sleep log for a specific date"
+        def operation = GetSleepLogFromSpecificDateOperation.builder()
                 .date(LocalDate.now())
                 .userId(UUID.randomUUID())
                 .build()
 
         and: "there are no logs in the repository for that date related to that user"
-        repository.findByDate(command.date, command.userId) >> Optional.empty()
+        repository.findByDate(operation.date, operation.userId) >> Optional.empty()
 
         when:
-        useCase.execute(command)
+        useCase.execute(operation)
 
         then:
         thrown(NoLogsForThisDateException)
     }
 
     def "Logs found for specific date"() {
-        given: "command to get sleep log for a specific date"
-        def command = GetSleepLogFromSpecificDateCommand.builder()
+        given: "operation to get sleep log for a specific date"
+        def operation = GetSleepLogFromSpecificDateOperation.builder()
                 .date(LocalDate.now())
                 .userId(UUID.randomUUID())
                 .build()
@@ -50,10 +50,10 @@ class GetSleepLogFromSpecificDateUseCaseTest extends Specification {
                 .wakeUpTime(LocalDateTime.now())
                 .build()
 
-        repository.findByDate(command.date, command.userId) >> Optional.of(sleepLog)
+        repository.findByDate(operation.date, operation.userId) >> Optional.of(sleepLog)
 
         when:
-        def result = useCase.execute(command)
+        def result = useCase.execute(operation)
 
         then:
         result.bedTime == sleepLog.bedTime

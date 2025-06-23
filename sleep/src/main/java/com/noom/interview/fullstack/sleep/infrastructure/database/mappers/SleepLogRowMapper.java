@@ -18,18 +18,14 @@ public class SleepLogRowMapper implements RowMapper<SleepLog> {
         var sleepDate = rs.getObject("sleep_date", LocalDate.class);
         var quality = SleepQuality.valueOf(rs.getString("quality"));
 
-        var sleepLogBuilder = SleepLog.builder()
+        var bedDate = bedTime.isAfter(wakeUpTime)
+                ? sleepDate.minusDays(1)
+                : sleepDate;
+
+        return SleepLog.builder()
+                .bedTime(bedDate.atTime(bedTime))
                 .wakeUpTime(sleepDate.atTime(wakeUpTime))
-                .quality(quality);
-
-        var isBedTimeFromPreviousDay = bedTime.isAfter(wakeUpTime);
-
-        if (isBedTimeFromPreviousDay) {
-            sleepLogBuilder.bedTime(sleepDate.minusDays(1).atTime(bedTime));
-        } else {
-            sleepLogBuilder.bedTime(sleepDate.atTime(bedTime));
-        }
-
-        return sleepLogBuilder.build();
+                .quality(quality)
+                .build();
     }
 }

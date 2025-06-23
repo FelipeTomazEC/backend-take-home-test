@@ -4,9 +4,9 @@ import com.noom.interview.fullstack.sleep.api.v1.SleepLogsApiV1;
 import com.noom.interview.fullstack.sleep.api.v1.requests.CreateSleepLogHttpRequest;
 import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepLogFromSpecificDateHttpResponse;
 import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepSummaryHttpResponse;
-import com.noom.interview.fullstack.sleep.application.ports.commands.CreateSleepLogCommand;
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepLogFromSpecificDateCommand;
-import com.noom.interview.fullstack.sleep.application.ports.commands.GetSleepSummaryCommand;
+import com.noom.interview.fullstack.sleep.application.ports.operations.CreateSleepLogOperation;
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepLogFromSpecificDateOperation;
+import com.noom.interview.fullstack.sleep.application.ports.operations.GetSleepSummaryOperation;
 import com.noom.interview.fullstack.sleep.application.ports.output.GetSleepLogFromSpecificDateOutput;
 import com.noom.interview.fullstack.sleep.application.ports.output.GetSleepSummaryOutput;
 import com.noom.interview.fullstack.sleep.application.usecases.UseCase;
@@ -27,20 +27,20 @@ import static com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepSummar
 @RequiredArgsConstructor
 public class SleepLogsHttpControllerV1 implements SleepLogsApiV1 {
 
-    private final UseCase<CreateSleepLogCommand, Void> createSleepLogUseCase;
-    private final UseCase<GetSleepLogFromSpecificDateCommand, GetSleepLogFromSpecificDateOutput> createSleepLogFromSpecificDateUseCase;
-    private final UseCase<GetSleepSummaryCommand, GetSleepSummaryOutput> getSleepSummaryUseCase;
+    private final UseCase<CreateSleepLogOperation, Void> createSleepLogUseCase;
+    private final UseCase<GetSleepLogFromSpecificDateOperation, GetSleepLogFromSpecificDateOutput> createSleepLogFromSpecificDateUseCase;
+    private final UseCase<GetSleepSummaryOperation, GetSleepSummaryOutput> getSleepSummaryUseCase;
 
     @Override
     public void createSleepLog(UUID userId, CreateSleepLogHttpRequest request) {
-        var command = CreateSleepLogCommand.builder()
+        var operation = CreateSleepLogOperation.builder()
                 .userId(userId)
                 .bedTime(LocalDateTime.parse(request.getBedTimeAndDate()))
                 .wakeUpTime(LocalDateTime.parse(request.getWakeUpTimeAndDate()))
                 .quality(SleepQuality.valueOf(request.getQuality()))
                 .build();
 
-        createSleepLogUseCase.execute(command);
+        createSleepLogUseCase.execute(operation);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class SleepLogsHttpControllerV1 implements SleepLogsApiV1 {
                 .map(LocalDate::parse)
                 .orElse(LocalDate.now());
 
-        var command = GetSleepLogFromSpecificDateCommand.builder()
+        var operation = GetSleepLogFromSpecificDateOperation.builder()
                 .userId(userId)
                 .date(desiredDate)
                 .build();
 
-        var output = createSleepLogFromSpecificDateUseCase.execute(command);
+        var output = createSleepLogFromSpecificDateUseCase.execute(operation);
 
         return GetSleepLogFromSpecificDateHttpResponse.builder()
                 .totalSleepTime(output.getTotalSleepTime().toString())
@@ -75,13 +75,13 @@ public class SleepLogsHttpControllerV1 implements SleepLogsApiV1 {
                 .map(LocalDate::parse)
                 .orElse(endDateOrDefault.minusDays(30));
 
-        var command = GetSleepSummaryCommand.builder()
+        var operation = GetSleepSummaryOperation.builder()
                 .userId(userId)
                 .startDate(startDateOrDefault)
                 .endDate(endDateOrDefault)
                 .build();
 
-        var output = getSleepSummaryUseCase.execute(command);
+        var output = getSleepSummaryUseCase.execute(operation);
 
         var sleepQualityFrequency = output.getSleepQualityFrequency().entrySet().stream()
                 .collect(Collectors.toMap(
