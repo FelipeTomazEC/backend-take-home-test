@@ -46,8 +46,8 @@ class DateValidatorTest extends Specification {
         value                   | expected
         "2024-06-01"    | true
         null                      | true
-        ""                         | true
-        " "                        | true
+        ""                         | false
+        " "                        | false
         "invalid"              | false
     }
 }

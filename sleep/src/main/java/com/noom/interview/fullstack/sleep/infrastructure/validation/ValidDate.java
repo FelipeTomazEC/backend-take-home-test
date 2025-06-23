@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 public @interface ValidDate {
-    boolean allowsNull() default true;
+    boolean allowsNull() default false;
     String message() default "Expected format: yyyy-MM-dd";
     Class<?>[] groups() default {};
     Class<? extends javax.validation.Payload>[] payload() default {};

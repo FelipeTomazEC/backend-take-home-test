@@ -35,14 +35,14 @@ public interface SleepLogsApiV1 {
     @GetMapping(GET_SLEEP_LOG_FROM_SPECIFIC_DATE)
     GetSleepLogFromSpecificDateHttpResponse getSleepLogFromSpecificDate(
             @RequestHeader(value = Constants.USER_ID_HEADER) UUID userId,
-            @RequestParam(value = "date", required = false) @ValidDate(message = "Invalid date. Expected format: yyyy-MM-dd") String date
+            @RequestParam(value = "date", required = false) @ValidDate(allowsNull = true, message = "Invalid date. Expected format: yyyy-MM-dd") String date
     );
 
     @ResponseStatus(value = HttpStatus.OK)
     @GetMapping(GET_SLEEP_SUMMARY)
     GetSleepSummaryHttpResponse getSleepSummary(
             @RequestHeader(value = Constants.USER_ID_HEADER) UUID userId,
-            @RequestParam(value = "startDate", required = false) @ValidDate(message = "Invalid startDate. Expected format: yyyy-MM-dd") String startDate,
-            @RequestParam(value = "endDate", required = false) @ValidDate(message = "Invalid endDate. Expected format: yyyy-MM-dd") String endDate
+            @RequestParam(value = "startDate", required = false) @ValidDate(allowsNull = true, message = "Invalid startDate. Expected format: yyyy-MM-dd") String startDate,
+            @RequestParam(value = "endDate", required = false) @ValidDate(allowsNull = true, message = "Invalid endDate. Expected format: yyyy-MM-dd") String endDate
     );
 }

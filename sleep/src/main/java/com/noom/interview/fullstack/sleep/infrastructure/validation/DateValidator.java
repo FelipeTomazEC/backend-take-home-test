@@ -16,7 +16,7 @@ public class DateValidator implements ConstraintValidator<ValidDate, String> {
 
     @Override
     public boolean isValid(String date, ConstraintValidatorContext context) {
-        if (date == null || date.isBlank()) {
+        if (date == null) {
             return allowsNull;
         }
 
