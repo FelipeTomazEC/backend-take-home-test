@@ -3,6 +3,7 @@ package com.noom.interview.fullstack.sleep.api.v1;
 import com.noom.interview.fullstack.sleep.api.commons.Constants;
 import com.noom.interview.fullstack.sleep.api.v1.requests.CreateSleepLogHttpRequest;
 import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepLogFromSpecificDateHttpResponse;
+import com.noom.interview.fullstack.sleep.api.v1.responses.GetSleepSummaryHttpResponse;
 import com.noom.interview.fullstack.sleep.infrastructure.validation.ValidDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +22,7 @@ public interface SleepLogsApiV1 {
     String BASE_PATH = "sleep-management/api/v1";
     String CREATE_SLEEP_LOG = BASE_PATH + "/sleep-logs";
     String GET_SLEEP_LOG_FROM_SPECIFIC_DATE = BASE_PATH + "/sleep-logs";
+    String GET_SLEEP_SUMMARY = BASE_PATH + "/sleep-logs/summary";
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(CREATE_SLEEP_LOG)
@@ -34,5 +36,13 @@ public interface SleepLogsApiV1 {
     GetSleepLogFromSpecificDateHttpResponse getSleepLogFromSpecificDate(
             @RequestHeader(value = Constants.USER_ID_HEADER) UUID userId,
             @RequestParam(value = "date", required = false) @ValidDate(message = "Invalid date. Expected format: yyyy-MM-dd") String date
+    );
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping(GET_SLEEP_SUMMARY)
+    GetSleepSummaryHttpResponse getSleepSummary(
+            @RequestHeader(value = Constants.USER_ID_HEADER) UUID userId,
+            @RequestParam(value = "startDate", required = false) @ValidDate(message = "Invalid startDate. Expected format: yyyy-MM-dd") String startDate,
+            @RequestParam(value = "endDate", required = false) @ValidDate(message = "Invalid endDate. Expected format: yyyy-MM-dd") String endDate
     );
 }
