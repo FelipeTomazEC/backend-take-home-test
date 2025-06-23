@@ -36,22 +36,30 @@ public interface SleepLogsApiV1Docs extends SleepLogsApiV1 {
         requestBody = @RequestBody(
             required = true,
             content = @Content(
-                schema = @Schema(implementation = CreateSleepLogHttpRequest.class)
+                schema = @Schema(
+                    implementation = CreateSleepLogHttpRequest.class
+                ),
+                examples = {
+                    @io.swagger.v3.oas.annotations.media.ExampleObject(
+                        name = "Sample Sleep Log",
+                        summary = "A typical sleep log",
+                        value = "{\n" +
+                                "  \"bedTimeAndDate\": \"2024-06-09T23:30:00\",\n" +
+                                "  \"wakeUpTimeAndDate\": \"2024-06-10T07:15:00\",\n" +
+                                "  \"quality\": \"GOOD\"\n" +
+                                "}"
+                    )
+                }
             )
         ),
         responses = {
-            @ApiResponse(responseCode = "201", description = "Sleep log created successfully"),
+            @ApiResponse(responseCode = "201", description = "Sleep log created successfully", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
         }
     )
     void createSleepLog(
             @RequestHeader(value = Constants.USER_ID_HEADER) UUID userId,
-            @Valid @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Sleep log creation request",
-                required = true,
-                content = @Content(schema = @Schema(implementation = CreateSleepLogHttpRequest.class))
-            )
-            CreateSleepLogHttpRequest request
+            @Valid CreateSleepLogHttpRequest request
     );
 
     @Override
