@@ -32,7 +32,7 @@ public class GlobalErrorHandler {
 
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(value = MissingRequestHeaderException.class)
-    public ErrorsHttpResponse handleMissingHeaderException(MissingRequestHeaderException exception) {
+    public ErrorsHttpResponse handleMissingUserIdHeaderException(MissingRequestHeaderException exception) {
         var errorMessage = String.format("%s header is required. It must be a valid UUID.", exception.getHeaderName());
 
         return new ErrorsHttpResponse(Set.of(errorMessage));
