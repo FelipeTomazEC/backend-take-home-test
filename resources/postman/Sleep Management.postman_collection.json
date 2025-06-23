@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "6412db78-d4bc-4ee2-a1e1-dcdeb58f7f2c",
+		"name": "Sleep Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8240300",
+		"_collection_link": "https://blue-resonance-424398.postman.co/workspace/New-Team-Workspace~06cda3ab-ef00-4495-81f9-f290106d357f/collection/8240300-6412db78-d4bc-4ee2-a1e1-dcdeb58f7f2c?action=share&source=collection_link&creator=8240300"
+	},
+	"item": [
+		{
+			"name": "Create sleep log",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "20c285ed-d54e-41b2-a712-bbb584e666ec",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bedTimeAndDate\": \"2025-06-22T22:00:00\",\n    \"wakeUpTimeAndDate\": \"2025-06-23T08:30:00\",\n    \"quality\": \"GOOD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sleep-management/api/v1/sleep-logs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sleep-management",
+						"api",
+						"v1",
+						"sleep-logs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve sleep log from an specific date",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "20c285ed-d54e-41b2-a712-bbb584e666ec",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"startTime\": \"2025-12-06T12:36:54\",\n    \"endTime\": \"2025-12-06T12:36:4\",\n    \"quality\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sleep-management/api/v1/sleep-logs?date=2025-06-23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sleep-management",
+						"api",
+						"v1",
+						"sleep-logs"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2025-06-23"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get summary",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-user-id",
+						"value": "20c285ed-d54e-41b2-a712-bbb584e666ec",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"startTime\": \"2025-12-06T12:36:54\",\n    \"endTime\": \"2025-12-06T12:36:4\",\n    \"quality\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/sleep-management/api/v1/sleep-logs/summary?startDate=2025-06-20&endDate=2025-06-26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sleep-management",
+						"api",
+						"v1",
+						"sleep-logs",
+						"summary"
+					],
+					"query": [
+						{
+							"key": "startDate",
+							"value": "2025-06-20"
+						},
+						{
+							"key": "endDate",
+							"value": "2025-06-26"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

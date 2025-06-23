@@ -18,7 +18,7 @@ The API exposes the following main functionalities:
   `GET /sleep-management/api/v1/sleep-logs/summary?startDate=yyyy-MM-dd&endDate=yyyy-MM-dd`  
   Returns a summary of the user's sleep logs between two dates (inclusive).
 
-All endpoints require a `x-user-id` header to identify the user.
+All endpoints require a `x-user-id` header to identify the user. This header should contain a valid [UUID v4](https://www.uuidgenerator.net/version4) representing the user ID.
 
 ## Technologies Used
 
@@ -67,6 +67,29 @@ This project follows a clear layered architecture, with each layer having a dist
    ```sh
    docker-compose down
    ```
+
+## Interacting with the API using Postman
+
+You can easily interact with the API using the provided Postman collection.
+
+### Steps:
+
+1. **Open Postman**  
+   Download and install [Postman](https://www.postman.com/downloads/) if you don't have it.
+
+2. **Import the Collection**  
+   - Click on the "Import" button in Postman.
+   - Select "File" and choose the collection file located at:  
+     `resources/postman/Sleep Management.postman_collection.json`
+   - Click "Import" to add the collection to your workspace.
+
+3. **Use the Requests**  
+   - The collection contains pre-configured requests for creating a sleep log, retrieving a sleep log by date, and getting a sleep summary.
+   - Make sure your local server is running (`http://localhost:8080`).
+   - Adjust the `x-user-id` header as needed for your tests. This must be a valid [UUID v4](https://www.uuidgenerator.net/version4) representing the user ID.
+
+4. **Send Requests**  
+   - Select a request from the collection and click "Send" to interact with the API.
 
 ## Testing
 
