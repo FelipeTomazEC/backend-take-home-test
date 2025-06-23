@@ -2,6 +2,7 @@ package com.noom.interview.fullstack.sleep.infrastructure.errorhandlers;
 
 import com.noom.interview.fullstack.sleep.api.v1.responses.ErrorsHttpResponse;
 import com.noom.interview.fullstack.sleep.domain.errors.NoLogsForThisDateException;
+import com.noom.interview.fullstack.sleep.domain.errors.SleepLogAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -51,5 +52,11 @@ public class GlobalErrorHandler {
                 .collect(Collectors.toSet());
 
         return new ErrorsHttpResponse(errors);
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT)
+    @ExceptionHandler(value = SleepLogAlreadyExistsException.class)
+    public ErrorsHttpResponse handleSleepLogAlreadyExistsException(SleepLogAlreadyExistsException exception) {
+        return new ErrorsHttpResponse(Set.of(exception.getMessage()));
     }
 }

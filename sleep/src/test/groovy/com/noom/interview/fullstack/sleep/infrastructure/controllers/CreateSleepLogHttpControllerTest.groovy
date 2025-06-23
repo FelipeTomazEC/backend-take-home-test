@@ -2,8 +2,10 @@ package com.noom.interview.fullstack.sleep.infrastructure.controllers
 
 import com.noom.interview.fullstack.sleep.api.commons.Constants
 import com.noom.interview.fullstack.sleep.api.v1.SleepLogsApiV1
+import com.noom.interview.fullstack.sleep.application.ports.repositories.SaveSleepLogRepository
 import com.noom.interview.fullstack.sleep.domain.SleepQuality
 import com.noom.interview.fullstack.sleep.testutils.AbstractControllerTest
+import com.noom.interview.fullstack.sleep.testutils.TestEntitiesBuilder
 import com.noom.interview.fullstack.sleep.testutils.TestRequestsBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -15,6 +17,9 @@ import java.time.LocalDateTime
 import static java.time.LocalDateTime.now
 
 class CreateSleepLogHttpControllerTest extends AbstractControllerTest {
+
+    @Autowired
+    SaveSleepLogRepository saveSleepLogRepository
 
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate
@@ -140,5 +145,31 @@ class CreateSleepLogHttpControllerTest extends AbstractControllerTest {
         retrievedLog.bedTime == LocalDateTime.parse(requestBody.bedTimeAndDate).toLocalTime()
         retrievedLog.wakeUpTime == LocalDateTime.parse(requestBody.wakeUpTimeAndDate).toLocalTime()
         retrievedLog.quality == SleepQuality.valueOf(requestBody.quality)
+    }
+
+    def "Cannot have more than one sleep log per day"() {
+        given: "a user has an existing sleep log for a given day"
+        def userId = UUID.randomUUID()
+        def existingLog = TestEntitiesBuilder.buildSleepLog().build()
+        saveSleepLogRepository.save(existingLog, userId)
+
+        and: "we try to create a new sleep log for the same day"
+        def newLogRequest = TestRequestsBuilder.buildCreateSleepLogHttpRequest()
+                .bedTimeAndDate(existingLog.getSleepDate().minusDays(1).atTime(22, 0).toString())
+                .wakeUpTimeAndDate(existingLog.getSleepDate().atTime(6, 0).toString())
+                .build()
+
+        when: "the request is sent"
+        def response = createHttpRequest()
+                .with().header(Constants.USER_ID_HEADER, userId.toString())
+                .body(newLogRequest)
+                .post(SleepLogsApiV1.CREATE_SLEEP_LOG)
+
+        then: "the response status is 409 Conflict"
+        response.statusCode() == HttpStatus.CONFLICT.value()
+
+        and: "the response body contains an error message"
+        def responseBody = response.body().asString()
+        responseBody.contains("already exists")
     }
 }
