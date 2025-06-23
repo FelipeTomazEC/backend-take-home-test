@@ -13,10 +13,12 @@ The API exposes the following main functionalities:
 - **Get Sleep Log for a Specific Date**  
   `GET /sleep-management/api/v1/sleep-logs?date=yyyy-MM-dd`  
   Retrieves the sleep log for a user on a specific date.
+  If no date is provided, it returns the sleep log from last night.
 
 - **Get Sleep Summary**  
   `GET /sleep-management/api/v1/sleep-logs/summary?startDate=yyyy-MM-dd&endDate=yyyy-MM-dd`  
   Returns a summary of the user's sleep logs between two dates (inclusive).
+  If no dates are provided, it returns the summary of the last 30 days.
 
 All endpoints require a `x-user-id` header to identify the user. This header should contain a valid [UUID v4](https://www.uuidgenerator.net/version4) representing the user ID.
 
