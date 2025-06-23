@@ -24,7 +24,11 @@ public class SleepLog {
             SleepQuality quality
     ) {
         if (timeToBed.isAfter(wakeUpTime)) {
-            throw new InvalidBedTimeIntervalException();
+            throw new InvalidBedTimeIntervalException("Bed time cannot be after wake up time.");
+        }
+
+        if (wakeUpTime.isAfter(LocalDateTime.now())) {
+            throw new InvalidBedTimeIntervalException("Wake up time cannot be in the future.");
         }
 
         this.bedTime = timeToBed;

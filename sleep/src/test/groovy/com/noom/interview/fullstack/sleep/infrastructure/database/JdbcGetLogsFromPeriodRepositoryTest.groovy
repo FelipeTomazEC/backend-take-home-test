@@ -51,7 +51,7 @@ class JdbcGetLogsFromPeriodRepositoryTest extends AbstractDatabaseTest {
         given: "a user specifies a period"
         def userId = UUID.randomUUID()
         def startTime = LocalDate.now().minusDays(7)
-        def endTime = LocalDate.now()
+        def endTime = LocalDate.now().minusDays(4)
 
         and: "their sleep logs are not for that period"
         def sleepLogOne = TestEntitiesBuilder.buildSleepLog()
