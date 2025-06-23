@@ -57,11 +57,7 @@ class GetSleepSummaryUseCaseTest extends Specification {
         when:
         def result = useCase.execute(command)
 
-        then: "period is correctly set in the result"
-        result.period.startDate == startDate
-        result.period.endDate == endDate
-
-        and: "the frequency of each sleep quality is calculated correctly"
+        then: "the frequency of each sleep quality is calculated correctly"
         result.sleepQualityFrequency.get(SleepQuality.GOOD) == 1
         result.sleepQualityFrequency.get(SleepQuality.OK) == 1
         result.sleepQualityFrequency.get(SleepQuality.BAD) == 2

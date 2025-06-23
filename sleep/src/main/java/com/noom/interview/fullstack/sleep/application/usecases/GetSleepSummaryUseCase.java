@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.noom.interview.fullstack.sleep.application.ports.output.GetSleepSummaryOutput.*;
 
 @Slf4j
 @Service
@@ -60,7 +59,6 @@ public class GetSleepSummaryUseCase implements
                 .averageWakeUpTime(averageTimeCalculator.calculateAvgTime(allWakeUpTimes))
                 .averageSleepTime(averageTimeCalculator.calculateAvgTime(allSleepTimes))
                 .sleepQualityFrequency(aggregateSleepQualityCounts(allSleepQualities))
-                .period(new Period(command.getStartDate(), command.getEndDate()))
                 .build();
     }
 
