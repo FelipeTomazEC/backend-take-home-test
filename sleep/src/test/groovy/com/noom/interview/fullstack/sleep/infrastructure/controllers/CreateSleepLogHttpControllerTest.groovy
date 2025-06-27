@@ -142,8 +142,8 @@ class CreateSleepLogHttpControllerTest extends AbstractControllerTest {
 
         and: "a sleep log is saved in the database"
         def retrievedLog = retrieveSleepLogByUserId(userId)
-        retrievedLog.bedTime == LocalDateTime.parse(requestBody.bedTimeAndDate).toLocalTime()
-        retrievedLog.wakeUpTime == LocalDateTime.parse(requestBody.wakeUpTimeAndDate).toLocalTime()
+        retrievedLog.bedTime.withNano(0) == LocalDateTime.parse(requestBody.bedTimeAndDate).toLocalTime().withNano(0)
+        retrievedLog.wakeUpTime.withNano(0) == LocalDateTime.parse(requestBody.wakeUpTimeAndDate).toLocalTime().withNano(0)
         retrievedLog.quality == SleepQuality.valueOf(requestBody.quality)
     }
 

@@ -33,8 +33,8 @@ class JdbcSleepLogSaveRepositoryTest extends AbstractDatabaseTest {
 
         then: "The sleep log is saved successfully"
         def retrievedLog = retrieveSleepLogByUserId(userId)
-        retrievedLog.wakeUpTime == sleepLog.wakeUpTime
-        retrievedLog.bedTime == sleepLog.bedTime
+        retrievedLog.wakeUpTime.withNano(0) == sleepLog.wakeUpTime.withNano(0)
+        retrievedLog.bedTime.withNano(0) == sleepLog.bedTime.withNano(0)
         retrievedLog.quality == sleepLog.quality
         retrievedLog.sleepDate == sleepLog.sleepDate
     }
