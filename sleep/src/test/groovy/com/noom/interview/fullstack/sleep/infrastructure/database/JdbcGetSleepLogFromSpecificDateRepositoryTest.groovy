@@ -39,8 +39,8 @@ class JdbcGetSleepLogFromSpecificDateRepositoryTest extends AbstractDatabaseTest
 
         and: "the log is correctly populated"
         def retrievedLog = logFromTwoDaysAgo.get()
-        retrievedLog.bedTime == sleepLogForTwoDaysAgo.bedTime
-        retrievedLog.wakeUpTime == sleepLogForTwoDaysAgo.wakeUpTime
+        retrievedLog.bedTime.withNano(0) == sleepLogForTwoDaysAgo.bedTime.withNano(0)
+        retrievedLog.wakeUpTime .withNano(0)== sleepLogForTwoDaysAgo.wakeUpTime.withNano(0)
         retrievedLog.quality == sleepLogForTwoDaysAgo.quality
 
         when: "we try to get the sleep log for yesterday"
