@@ -94,8 +94,14 @@ You can easily interact with the API using the provided Postman collection.
    - Select a request from the collection and click "Send" to interact with the API.
 
 ## Testing
+Before running the tests, ensure that:
+- Docker is running on your machine.
+- The gradlew script is executable. If not, run:
+```sh
+- chmod +x ./gradlew
+```
 
-Tests are written using the Spock Framework and run automatically with Gradle:
+Then run the following command and all tests willl run automatically with Gradle:
 
 ```sh
 cd sleep
